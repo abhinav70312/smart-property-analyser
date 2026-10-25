@@ -22,8 +22,8 @@ nav a{color:#3c4a6b;text-decoration:none;font-size:14px;font-weight:500;transiti
 .hero p{color:var(--mut);margin:12px 0;font-weight:500}
 .botHi{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(79,70,229,.12),rgba(5,150,105,.1));border:1px solid rgba(79,70,229,.3);border-radius:14px;padding:10px 14px;margin:12px 0;cursor:pointer;max-width:520px;transition:.25s}
 .botHi:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(79,70,229,.25)}
-.botHiAva{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#0ea5e9);display:flex;align-items:center;justify-content:center;flex:none;animation:float 3.5s ease-in-out infinite}
-.botHiAva svg{width:26px;height:26px}
+.botHiAva{width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex:none;animation:float 3.5s ease-in-out infinite}
+.botHiAva svg{width:42px;height:42px;filter:drop-shadow(0 6px 14px rgba(79,70,229,.45))}
 .botHiTx{font-size:13px;color:var(--txt)}
 .botHiGo{margin-left:auto;background:linear-gradient(135deg,#4f46e5,#7c6cff);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;flex:none}
 .heroBanner{border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.7);margin:16px 0;position:relative;height:250px;box-shadow:0 24px 60px rgba(60,80,200,.28);transform:perspective(1200px) rotateX(2deg);transition:.4s}

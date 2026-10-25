@@ -13,6 +13,8 @@
 @keyframes wave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-24deg)}55%{transform:rotate(12deg)}80%{transform:rotate(-10deg)}}
 .botEye{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
 @keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+.botGlow{animation:glow 2s ease-in-out infinite}
+@keyframes glow{50%{opacity:.35}}
 #spaHead{background:linear-gradient(135deg,#5e6ad2,#0ea472);padding:12px 14px;display:flex;gap:10px;align-items:center;color:#fff}
 #spaHead b{font-size:15px}#spaHead small{font-weight:400;opacity:.85;font-size:11px}
 #spaAva{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none}
