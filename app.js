@@ -132,7 +132,7 @@ const on=(id,ev,fn)=>{const e=$(id);if(e)e[ev]=fn;};
 window.onload=()=>{
   const secs=Object.keys(SECTORS);
   ["pSec","lS","cSec"].forEach(id=>{const e=$(id);if(e)e.innerHTML=secs.map(s=>`<option>${s}</option>`).join("");});
-  if($("pSec"))$("pSec").value="Sec 34";chartSec="Sec 34";
+  if($("pSec"))$("pSec").value="Sec 34"; if($("cSec"))$("cSec").value="Sec 34";chartSec="Sec 34";
   if($("chart"))drawChart();renderDealers();renderListings();renderDemands();
   if($("chat"))$("chat").innerHTML=`<div class="bm"><span>Namaste! Ask about sectors, prediction, EMI, or legal tips.</span></div>`;
   on("cSec","onchange",e=>{chartSec=e.target.value;drawChart();});
