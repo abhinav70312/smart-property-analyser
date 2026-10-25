@@ -7,7 +7,7 @@ function spaAsk(raw){
   const S=(typeof SECTORS!=="undefined")?SECTORS:{};
   const secName=Object.keys(S).find(k=>s.includes(k.toLowerCase()));
   if(/^(hi|hii+|hello|hey|namaste|sat sri|ram ram|yo|good (morning|evening|afternoon))\b/.test(s)||H("namaste","sat sri akal"))
-    return "Namaste! I'm <b>PlotMitra</b>, your Chandigarh land guide. Rates now per sq.ft. Try: <i>'price of Sec 34'</i>, <i>'best sector under 1Cr'</i>, <i>'EMI on 50L'</i>, <i>'legal checklist'</i>.";
+    return "Hello! I'm <b>PlotMitra</b>, your Chandigarh land guide. Rates now per sq.ft. Try: <i>'price of Sec 34'</i>, <i>'best sector under 1Cr'</i>, <i>'EMI on 50L'</i>, <i>'legal checklist'</i>.";
   if(H("thank","shukriya","dhanyavad","great","nice","awesome")) return "Anytime! Next: post your need on the <b>Dealers</b> page, or list a property on <b>Marketplace</b>.";
   if(H("who are you","your name","about yourself")) return "I'm <b>PlotMitra</b> — trained on Chandigarh/Mohali/Zirakpur rates (per sq.ft), growth, EMI/ROI math, RERA law and this site's dealer listings.";
   if(H("bye","see you","good night")) return "Bye! I'm on the 🏠 button 24x7. Good luck with your land hunt!";
@@ -65,6 +65,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   <div id="spaChat"></div>
   <div id="spaChips"><button onclick="spaSend('best sector under 1Cr for 5 years')">Best under 1Cr</button><button onclick="spaSend('price of Sec 34')">Sec 34 rate</button><button onclick="spaSend('compare Sec 34 vs Zirakpur')">Compare</button><button onclick="spaSend('EMI on 50 lakh')">EMI help</button><button onclick="spaSend('legal checklist')">Legal</button><button onclick="spaSend('talk to a dealer')">Dealers</button></div>
   <div id="spaRow"><input id="spaIn" placeholder="Ask PlotMitra…"><button onclick="spaSend()">Send</button></div></div>`);
-  spaBubble("b","Namaste! I'm <b>PlotMitra</b> — rates now per sq.ft. Ask me anything, e.g. <i>'price of Sec 44'</i> or <i>'best sector under 1Cr'</i>.");
+  spaBubble("b","Hello! I'm <b>PlotMitra</b> — rates now per sq.ft. Ask me anything, e.g. <i>'price of Sec 44'</i> or <i>'best sector under 1Cr'</i>.");
   document.getElementById("spaIn").addEventListener("keydown",e=>{if(e.key==="Enter")spaSend();});
 });
