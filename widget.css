@@ -1,0 +1,23 @@
+/* PlotMitra floating assistant */
+#spaFab{position:fixed;right:20px;bottom:20px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#5e6ad2,#10b981);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:99;box-shadow:0 8px 30px rgba(94,106,210,.55);border:2px solid rgba(255,255,255,.25)}
+#spaFab:hover{transform:scale(1.07)}
+#spaFab svg{width:34px;height:34px}
+#spaDot{position:absolute;top:2px;right:2px;width:14px;height:14px;background:#10b981;border:3px solid #08090a;border-radius:50%}
+#spaPop{position:fixed;right:20px;bottom:96px;width:370px;max-width:calc(100vw - 40px);background:#0f1011;border:1px solid rgba(255,255,255,.12);border-radius:16px;z-index:99;display:none;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.65)}
+#spaPop.open{display:block}
+#spaHead{background:linear-gradient(135deg,#5e6ad2,#0ea472);padding:12px 14px;display:flex;gap:10px;align-items:center}
+#spaHead b{font-size:15px}#spaHead small{font-weight:400;opacity:.85;font-size:11px}
+#spaAva{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+#spaAva svg{width:24px;height:24px}
+#spaChat{height:320px;overflow:auto;padding:12px}
+#spaRow{display:flex;gap:6px;padding:10px;border-top:1px solid rgba(255,255,255,.08)}
+#spaRow input{flex:1}
+#spaChips{display:flex;gap:6px;flex-wrap:wrap;padding:0 10px 10px}
+#spaChips button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#d0d6e0;font-size:12px;padding:5px 10px;border-radius:999px;cursor:pointer}
+#spaChips button:hover{background:rgba(255,255,255,.1)}
+.um{text-align:right;margin:6px 0}.um span{background:#5e6ad2;padding:7px 11px;border-radius:12px 12px 3px 12px;display:inline-block;font-size:13px;max-width:85%}
+.bm{margin:6px 0;display:flex;gap:6px}.bm .ava{width:24px;height:24px;border-radius:50%;background:#fff;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px}
+.bm span{background:#22242a;padding:7px 11px;border-radius:12px 12px 12px 3px;display:inline-block;font-size:13px;max-width:88%}
+.typ span{background:#22242a;padding:8px 14px;border-radius:12px;display:inline-block;animation:bl 1s infinite}
+@keyframes bl{50%{opacity:.4}}
+.stamp{font-size:10px;color:#62666d;margin-top:2px}
