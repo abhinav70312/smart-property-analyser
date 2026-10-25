@@ -1,5 +1,5 @@
 // PlotMitra — trained Chandigarh property AI (prices per sq.ft)
-const BOT_LOGO = `<svg viewBox="0 0 32 32" fill="none"><rect x="5" y="8" width="22" height="15" rx="5" fill="#4f46e5"/><rect x="9" y="12" width="5" height="5" rx="2.5" fill="#fff"/><rect x="18" y="12" width="5" height="5" rx="2.5" fill="#fff"/><circle cx="11.5" cy="14.5" r="1.4" fill="#4f46e5"/><circle cx="20.5" cy="14.5" r="1.4" fill="#4f46e5"/><rect x="13" y="18.5" width="6" height="1.8" rx="0.9" fill="#fff"/><rect x="14" y="4" width="4" height="4" rx="2" fill="#10b981"/><line x1="16" y1="8" x2="16" y2="9" stroke="#10b981" stroke-width="1.4"/><rect x="2" y="14" width="3" height="4" rx="1.5" fill="#0ea5e9"/><rect x="27" y="14" width="3" height="4" rx="1.5" fill="#0ea5e9"/><path d="M9 25l-2 4M23 25l2 4" stroke="#10b981" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+const BOT_LOGO = `<svg viewBox="0 0 40 40" fill="none"><line x1="20" y1="4" x2="20" y2="9" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="4.5" r="2.4" fill="#10b981"/><rect x="3.5" y="15" width="4" height="8" rx="2" fill="#0ea5e9"/><rect x="9" y="10" width="22" height="14" rx="6" fill="#4f46e5"/><g class="botEye"><rect x="13" y="13.5" width="5.5" height="6.5" rx="2.7" fill="#fff"/><rect x="21.5" y="13.5" width="5.5" height="6.5" rx="2.7" fill="#fff"/><circle cx="15.7" cy="16.7" r="1.5" fill="#1e1b4b"/><circle cx="24.2" cy="16.7" r="1.5" fill="#1e1b4b"/></g><path d="M17 21q3 2.2 6 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><rect x="13" y="24" width="14" height="8" rx="3.5" fill="#0ea5e9"/><circle cx="20" cy="28" r="2" fill="#fff"/><path d="M15.5 32v3.5M24.5 32v3.5" stroke="#4f46e5" stroke-width="2.4" stroke-linecap="round"/><g class="botWave"><rect x="30.5" y="4" width="4.2" height="9.5" rx="2.1" fill="#4f46e5"/><circle cx="32.6" cy="4.2" r="2.7" fill="#fff" stroke="#4f46e5" stroke-width="1.4"/></g></svg>`;
 const inr = n => "Rs " + Math.round(n).toLocaleString("en-IN");
 function parseAmt(s){let m=s.match(/(\d+(?:\.\d+)?)\s*(crore|cr|lakh|l|k|thousand)/i);if(!m){let n=s.match(/(\d{5,})/);return n?+n[1]:0;}let v=parseFloat(m[1]),u=m[2].toLowerCase();if(u[0]==="c")return v*1e7;if(u[0]==="l")return v*1e5;return v*1e3;}
 function spaAsk(raw){
@@ -42,7 +42,8 @@ function spaAsk(raw){
   return `Tell me a bit more — try:<br>• ${sug.map(x=>`<i>'${x}'</i>`).join("<br>• ")}<br><br>Or send <b>budget + goal</b> (e.g. <i>'80L, growth, 5 years'</i>). I cover all 10 areas: ${Object.keys(S).join(", ")}.`;
 }
 function spaTime(){const d=new Date();return d.getHours()+":"+String(d.getMinutes()).padStart(2,"0");}
-function spaToggle(){document.getElementById("spaPop").classList.toggle("open");}
+function spaToggle(){const p=document.getElementById("spaPop");p.classList.toggle("open");if(p.classList.contains("open")){const f=document.getElementById("spaFab");if(f)f.classList.remove("attn");}}
+function spaReact(m){spaBubble("b",m);const p=document.getElementById("spaPop");if(!p.classList.contains("open")){const f=document.getElementById("spaFab");if(f){f.classList.remove("attn");void f.offsetWidth;f.classList.add("attn");}}}
 function spaBubble(who,text){
   const c=document.getElementById("spaChat");
   if(who==="u")c.innerHTML+=`<div class="um"><span>${text.replace(/</g,"&lt;")}</span><div class="stamp">${spaTime()}</div></div>`;
@@ -59,12 +60,25 @@ function spaSend(txt){
 document.addEventListener("DOMContentLoaded",()=>{
   if(document.getElementById("spaFab"))return;
   document.body.insertAdjacentHTML("beforeend",
-  `<div id="spaFab" onclick="spaToggle()" title="Chat with PlotMitra">${BOT_LOGO}<div id="spaDot"></div></div>
+  `<div id="spaFabWrap"><div id="spaFab" onclick="spaToggle()" title="Chat with PlotMitra">${BOT_LOGO}<div id="spaDot"></div></div><div id="spaFabName" onclick="spaToggle()">PlotMitra</div></div>
   <div id="spaPop"><div id="spaHead"><div id="spaAva">${BOT_LOGO}</div>
   <div><b>PlotMitra</b> <span style="background:#10b981;font-size:10px;padding:2px 8px;border-radius:999px">AI • online</span><br><small>Chandigarh land guide — buy • sell • predict</small></div></div>
   <div id="spaChat"></div>
   <div id="spaChips"><button onclick="spaSend('best sector under 1Cr for 5 years')">Best under 1Cr</button><button onclick="spaSend('price of Sec 34')">Sec 34 rate</button><button onclick="spaSend('compare Sec 34 vs Zirakpur')">Compare</button><button onclick="spaSend('EMI on 50 lakh')">EMI help</button><button onclick="spaSend('legal checklist')">Legal</button><button onclick="spaSend('talk to a dealer')">Dealers</button></div>
   <div id="spaRow"><input id="spaIn" placeholder="Ask PlotMitra…"><button onclick="spaSend()">Send</button></div></div>`);
-  spaBubble("b","Hello! I'm <b>PlotMitra</b> — rates now per sq.ft. Ask me anything, e.g. <i>'price of Sec 44'</i> or <i>'best sector under 1Cr'</i>.");
+  const page=(location.pathname.split("/").pop()||"index.html").toLowerCase();
+  let greet="Hello! I'm <b>PlotMitra</b> — rates now per sq.ft. Ask me anything, e.g. <i>'price of Sec 44'</i> or <i>'best sector under 1Cr'</i>.";
+  if(page.includes("predict"))greet="Hello! I'm <b>PlotMitra</b>. Run a forecast below, then ask me <i>'is Sec 34 good for 5 years?'</i> for my take.";
+  else if(page.includes("market"))greet="Hello! I'm <b>PlotMitra</b>. Browse the plots, or tell me your budget and I'll shortlist sectors.";
+  else if(page.includes("dealer"))greet="Hello! I'm <b>PlotMitra</b>. Ask me <i>'talk to a dealer'</i> and I'll point you to the right one.";
+  else if(page.includes("calc"))greet="Hello! I'm <b>PlotMitra</b>. Try the EMI tool, then ask me <i>'EMI on 80 lakh'</i> to compare.";
+  spaBubble("b",greet);
+  const hook=(n,m)=>{try{if(typeof window[n]==="function"){const o=window[n];window[n]=function(){const r=o.apply(this,arguments);try{spaReact(m);}catch(e){}return r;};}}catch(e){}};
+  hook("predict","Nice forecast! Ask me <i>'is this sector good for 5 years?'</i> and I'll give you my verdict.");
+  hook("addListing","Your property is live! Ask me <i>'when to sell'</i> for pricing tips.");
+  hook("addDemand","Requirement posted! Meanwhile ask me <i>'best sector under 1Cr'</i>.");
+  hook("addDealer","Welcome aboard! Your firm now shows in the directory.");
+  hook("emi","EMI done! Keep it under 40% of income. Ask me anything on loans.");
+  hook("roi","ROI done! Ask me <i>'rent vs buy'</i> if you're still deciding.");
   document.getElementById("spaIn").addEventListener("keydown",e=>{if(e.key==="Enter")spaSend();});
 });
