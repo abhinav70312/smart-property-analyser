@@ -18,7 +18,7 @@ nav a{color:#b9c4e4;text-decoration:none;font-size:14px;font-weight:500;transiti
 @keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-5px) rotate(4deg)}}
 /* hero */
 .wrap{max-width:1150px;margin:auto;padding:28px 20px}
-.hero h1{font-size:50px;letter-spacing:-1.5px;line-height:1.05;background:linear-gradient(90deg,#fff 10%,#a5b4ff 55%,#34d399);-webkit-background-clip:text;background-clip:text;color:transparent;animation:fadeUp .8s ease both;filter:drop-shadow(0 3px 12px rgba(79,70,229,.4))}
+.hero h1{font-size:50px;letter-spacing:-1.5px;line-height:1.05;background:linear-gradient(90deg,#fff 5%,#e879f9 45%,#22d3ee 85%);-webkit-background-clip:text;background-clip:text;color:transparent;animation:fadeUp .8s ease both;filter:drop-shadow(0 0 18px rgba(168,85,247,.45))}
 .hero p{color:var(--mut);margin:12px 0;font-weight:500}
 .botHi{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(124,140,255,.16),rgba(52,211,153,.1));border:1px solid rgba(124,140,255,.35);border-radius:14px;padding:10px 14px;margin:12px 0;cursor:pointer;max-width:520px;transition:.25s}
 .botHi:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(79,70,229,.4)}
@@ -26,11 +26,12 @@ nav a{color:#b9c4e4;text-decoration:none;font-size:14px;font-weight:500;transiti
 .botHiAva svg{width:42px;height:42px;filter:drop-shadow(0 6px 14px rgba(79,70,229,.55))}
 .botHiTx{font-size:13px;color:var(--txt)}
 .botHiGo{margin-left:auto;background:linear-gradient(135deg,#4f46e5,#7c6cff);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:9px;flex:none}
-.heroBanner{border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.14);margin:16px 0;position:relative;height:250px;box-shadow:0 24px 60px rgba(0,0,0,.55);transform:perspective(1200px) rotateX(2deg);transition:.4s}
-.heroBanner:hover{transform:perspective(1200px) rotateX(0) scale(1.01)}
-.heroBanner img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease;filter:brightness(.85)}
+.heroBanner{border-radius:20px;overflow:hidden;border:1px solid rgba(232,121,249,.35);margin:16px 0;position:relative;height:250px;box-shadow:0 0 40px rgba(168,85,247,.35),0 24px 60px rgba(0,0,0,.55);transform:perspective(1200px) rotateX(2deg);transition:.4s}
+.heroBanner:hover{transform:perspective(1200px) rotateX(0) scale(1.01);box-shadow:0 0 60px rgba(34,211,238,.4),0 24px 60px rgba(0,0,0,.55)}
+.heroBanner img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease;filter:brightness(.9) saturate(1.2) hue-rotate(-10deg)}
+.heroBanner::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(124,58,237,.35),rgba(34,211,238,.18) 60%,rgba(232,121,249,.25));pointer-events:none;mix-blend-mode:overlay}
 .heroBanner:hover img{transform:scale(1.08)}
-.heroBanner .cap{position:absolute;left:16px;bottom:12px;background:rgba(10,14,30,.65);backdrop-filter:blur(8px);color:#fff;padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);font-size:13px}
+.heroBanner .cap{position:absolute;left:16px;bottom:12px;background:rgba(20,8,40,.7);backdrop-filter:blur(8px);color:#fff;padding:8px 14px;border-radius:10px;border:1px solid rgba(34,211,238,.4);box-shadow:0 0 16px rgba(34,211,238,.3);font-size:13px;z-index:1}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 /* cards — dark glass 3D */
 .grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
