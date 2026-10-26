@@ -18,13 +18,13 @@ function drawChart(){
   const W=c.width=c.offsetWidth*2, H=c.height=460;
   ctx.clearRect(0,0,W,H);
   const d=SECTORS[chartSec].trend.map(v=>v/9), max=Math.max(...d)*1.15, min=0;
-  ctx.strokeStyle="#4f46e5"; ctx.lineWidth=4; ctx.beginPath();
+  ctx.strokeStyle="#7c8cff"; ctx.lineWidth=4; ctx.beginPath();
   d.forEach((v,i)=>{const x=40+i*(W-80)/(d.length-1), y=H-40-(v-min)/(max-min)*(H-80); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
   ctx.stroke();
-  ctx.fillStyle="#5b6b8c"; ctx.font="22px Inter";
+  ctx.fillStyle="#9aa7c7"; ctx.font="22px Inter";
   d.forEach((v,i)=>{const x=40+i*(W-80)/(d.length-1), y=H-40-(v-min)/(max-min)*(H-80);
-    ctx.fillStyle="#4f46e5";ctx.beginPath();ctx.arc(x,y,8,0,7);ctx.fill();
-    ctx.fillStyle="#5b6b8c";ctx.fillText(YEARS[i],x-20,H-8);});
+    ctx.fillStyle="#7c8cff";ctx.beginPath();ctx.arc(x,y,8,0,7);ctx.fill();
+    ctx.fillStyle="#9aa7c7";ctx.fillText(YEARS[i],x-20,H-8);});
   $("chartLbl").textContent=chartSec+" — "+fmt(SECTORS[chartSec].base/9)+"/sq.ft (2026)";
 }
 function predict(){
@@ -42,9 +42,9 @@ function drawProj(s,area,yrs){
   const c=$("proj"); if(!c) return; const ctx=c.getContext("2d");
   const W=c.width=c.offsetWidth*2,H=c.height=460;ctx.clearRect(0,0,W,H);
   const sec=SECTORS[s];let pts=[];for(let i=0;i<=yrs;i++)pts.push(sec.base/9*Math.pow(1+sec.growth,i));
-  const max=Math.max(...pts)*1.05;ctx.strokeStyle="#059669";ctx.lineWidth=4;ctx.beginPath();
+  const max=Math.max(...pts)*1.05;ctx.strokeStyle="#34d399";ctx.lineWidth=4;ctx.beginPath();
   pts.forEach((v,i)=>{const x=40+i*(W-80)/yrs,y=H-40-v/max*(H-80);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
-  ctx.stroke();ctx.fillStyle="#059669";
+  ctx.stroke();ctx.fillStyle="#34d399";
   pts.forEach((v,i)=>{const x=40+i*(W-80)/(yrs||1),y=H-40-v/max*(H-80);ctx.beginPath();ctx.arc(x,y,7,0,7);ctx.fill();});
 }
 function emi(){
@@ -65,7 +65,7 @@ function renderDealers(){
   const d=load("dealers",DEALERS_SEED), l=load("listings",LISTINGS_SEED);
   el.innerHTML=d.map(x=>{
     const props=l.filter(p=>p.by===x.name||p.phone===x.phone);
-    const plist=props.length?props.map(p=>`<div style="background:#f4f6ff;border:1px solid rgba(60,80,180,.14);border-radius:8px;padding:8px;margin-top:6px;font-size:13px"><b>${p.title}</b><br><span class="mut">${p.sector} • ${p.type} • ${p.area||""} sq.ft</span><br><b>${fmt(p.price)}</b> <span class="pill">${p.tag||""}</span><br><a href="tel:${p.phone}"><button class="ghost" style="margin-top:4px">Call</button></a> <a href="${waLink(p.phone,"Hi "+x.name+", I'm interested in: "+p.title)}" target="_blank"><button class="ghost" style="margin-top:4px">WhatsApp</button></a></div>`).join(""):`<p class="mut" style="font-size:13px">No live listings yet.</p>`;
+    const plist=props.length?props.map(p=>`<div style="background:#1a2242;border:1px solid rgba(130,150,255,.16);border-radius:8px;padding:8px;margin-top:6px;font-size:13px"><b>${p.title}</b><br><span class="mut">${p.sector} • ${p.type} • ${p.area||""} sq.ft</span><br><b>${fmt(p.price)}</b> <span class="pill">${p.tag||""}</span><br><a href="tel:${p.phone}"><button class="ghost" style="margin-top:4px">Call</button></a> <a href="${waLink(p.phone,"Hi "+x.name+", I'm interested in: "+p.title)}" target="_blank"><button class="ghost" style="margin-top:4px">WhatsApp</button></a></div>`).join(""):`<p class="mut" style="font-size:13px">No live listings yet.</p>`;
     const init=x.name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
     return `<div class="card"><div style="display:flex;gap:10px;align-items:center"><div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">${init}</div>
     <div><h3 style="margin:0">${x.name} <span class="tag">★${x.rating}</span></h3><p class="mut">${x.owner||""} • ${x.exp||""} exp</p></div></div>
@@ -141,6 +141,6 @@ window.onload=()=>{
   const heat=$("heat");
   if(heat){const all=Object.entries(SECTORS).sort((a,b)=>b[1].growth-a[1].growth);const mx=all[0][1].growth;
   heat.innerHTML=all.map(([s,d])=>{const g=Math.round(d.growth/mx*100);
-    return `<div class="card"><b>${s}</b><div class="mut">${d.zone} • ${fmt(d.base/9)}/sq.ft</div><div style="background:#dbe4ff;border-radius:6px;margin-top:6px"><div style="width:${g}%;background:linear-gradient(90deg,#4f46e5,#10b981);padding:3px 6px;border-radius:6px;font-size:12px;color:#fff">${(d.growth*100).toFixed(1)}% CAGR</div></div></div>`;}).join("");
+    return `<div class="card"><b>${s}</b><div class="mut">${d.zone} • ${fmt(d.base/9)}/sq.ft</div><div style="background:#252e5a;border-radius:6px;margin-top:6px"><div style="width:${g}%;background:linear-gradient(90deg,#4f46e5,#10b981);padding:3px 6px;border-radius:6px;font-size:12px;color:#fff">${(d.growth*100).toFixed(1)}% CAGR</div></div></div>`;}).join("");
   }
 };
