@@ -28,7 +28,7 @@ function drawChart(){
   $("chartLbl").textContent=chartSec+" — "+fmt(SECTORS[chartSec].base/9)+"/sq.ft (2026)";
 }
 function predict(){
-  const s=$("pSec").value, area=+$("pArea").value||100, yrs=+$("pYrs").value||5;
+  const s=$("pSec").value, area=+$("pArea").value||100, yrs=Math.min(15,Math.max(1,+$("pYrs").value||5));
   const sec=SECTORS[s]; const rate=sec.growth;
   const fut=sec.base/9*Math.pow(1+rate,yrs);
   const cagr=(rate*100).toFixed(1);
@@ -48,16 +48,18 @@ function drawProj(s,area,yrs){
   pts.forEach((v,i)=>{const x=40+i*(W-80)/(yrs||1),y=H-40-v/max*(H-80);ctx.beginPath();ctx.arc(x,y,7,0,7);ctx.fill();});
 }
 function emi(){
-  const P=+$("eP").value||5000000,R=(+$("eR").value||9)/1200,N=(+$("eY").value||20)*12;
-  if(!(R>0)||!(N>0)){$("eOut").textContent="Enter a rate above 0% and tenure above 0.";return;}
-  const e=P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);
+  const P=+$("eP").value||5000000,R=$("eR").value===""?9:+$("eR").value,Y=+$("eY").value||20;
+  if(!(P>0)||isNaN(R)||R<0||!(Y>0)){$("eOut").textContent="Enter a valid amount, rate and tenure.";return;}
+  const r=R/1200,N=Y*12;
+  const e=r===0?P/N:P*r*Math.pow(1+r,N)/(Math.pow(1+r,N)-1);
   $("eOut").innerHTML=`Monthly EMI: <b>${fmt(e)}</b> &nbsp; Total payable: <b>${fmt(e*N)}</b>`;
 }
 function roi(){
   const buy=+$("rBuy").value||0,sell=+$("rSell").value||0,yrs=+$("rY").value||0,rent=+$("rRent").value||0;
   if(!(buy>0)||!(yrs>0)){$("rOut").textContent="Enter a buy price and holding years above 0.";return;}
-  const gain=sell-buy+rent*12*yrs, pct=(gain/buy*100).toFixed(1), ann=(Math.pow(sell/buy,1/yrs)-1)*100;
-  $("rOut").innerHTML=`Net gain: <b>${fmt(gain)}</b> (${pct}%) &nbsp; <span class="pill">≈ ${ann.toFixed(1)}%/yr</span>`;
+  const gain=sell-buy+rent*12*yrs, pct=(gain/buy*100).toFixed(1);
+  const ann=sell>0?` &nbsp; <span class="pill">≈ ${((Math.pow(sell/buy,1/yrs)-1)*100).toFixed(1)}%/yr</span>` :"";
+  $("rOut").innerHTML=`Net gain: <b>${fmt(gain)}</b> (${pct}%)${ann}`;
 }
 function waLink(phone,msg){return "https://wa.me/91"+String(phone).replace(/\D/g,"")+"?text="+encodeURIComponent(msg||"Hi, I saw your property on Smart Property Analyser.");}
 function renderDealers(){
@@ -86,8 +88,10 @@ function renderListings(){
 }
 function addListing(){
   const l=load("listings",LISTINGS_SEED);
+  if(!(+$("lP").value>0)){$("lP").focus();alert("Enter a price above 0.");return;}
   l.unshift({id:"p"+Date.now(),title:$("lT").value||"Plot",sector:$("lS").value,price:+$("lP").value||0,area:+($("lA")&&$("lA").value)||0,type:$("lTy").value,by:$("lBy").value||"Owner",phone:$("lPh").value||"-",tag:"New"});
   store("listings",l);renderListings();renderDealers();
+  ["lT","lA","lP","lBy","lPh"].forEach(id=>{const e=$(id);if(e)e.value="";});
   alert("Published! Visible in Marketplace + under your dealer card.");
 }
 function renderDemands(){
@@ -103,29 +107,32 @@ function addDemand(){
   const d=load("demands",DEMANDS_SEED);
   const b=$("dB").value||"-";
   d.unshift({name:$("dN").value||"Buyer",phone:$("dP")?$("dP").value:"",budget:b,loc:$("dL").value||"Any",type:$("dT").value||"Any",note:$("dNote")?$("dNote").value:""});
-  store("demands",d);renderDemands();alert("Requirement posted! Dealers can now call you.");
+  store("demands",d);renderDemands();
+  ["dN","dP","dB","dL","dNote"].forEach(id=>{const e=$(id);if(e)e.value="";});
+  alert("Requirement posted! Dealers can now call you.");
 }
 function addDealer(){
   const d=load("dealers",DEALERS_SEED);
   d.unshift({name:$("dlN").value||"New Dealer",area:$("dlA").value||"Chandigarh",phone:$("dlP").value||"-",deals:0,rating:5,spl:$("dlS").value||"General"});
   store("dealers",d);renderDealers();
+  ["dlN","dlA","dlP","dlS"].forEach(id=>{const e=$(id);if(e)e.value="";});
 }
 function ask(q){
   q=q.toLowerCase();
   const has=(...w)=>w.some(x=>q.includes(x));
-  if(has("buy","invest","best sector","where"))return "For budget < Rs 80L pick Zirakpur / Mohali Rd (CAGR 10%+). For safe premium pick Sec 8/9/17. Tell me budget + horizon and I'll narrow it.";
-  if(has("sell","when"))return "Sell signal: 3yr gain >35% or rental yield <2%. Sec 34/44 owners sitting since 2021 are up ~45% — good time to partially book.";
-  if(has("predict","future","2028","2030"))return "Use the predictor: pick sector, area, years. Rule: price x (1+CAGR)^years.";
-  if(has("loan","emi"))return "Banks fund ~75-80% at 8.5-9.5%. Use the EMI calculator. Keep EMI <40% of income.";
-  if(has("dealer","broker"))return "Top rated: UT Land Hub (4.9, Sec 17) and Goyal Properties (4.8, Sec 34). Verify RERA + title before token money.";
-  if(has("rera","legal","stamp","fraud"))return "Checklist: RERA ID, title chain 30 yrs, no dues, registered sale deed only. Stamp duty ~7% + 1% registration.";
-  if(has("rent","yield"))return "Chandigarh rental yield is 2.5-3.5%. A Rs 2Cr flat rents ~Rs 40-55K/mo.";
-  if(has("hi","hello","namaste"))return "Namaste! I guide land buy/sell in Chandigarh. Ask: best sector under 1Cr? predict Sec 34 2030? EMI? legal checklist?";
-  return "I can help with: buy vs sell timing, sector growth, prediction, EMI/ROI, dealer contacts, legal checklist. Try: 'best sector under 1 crore for 5 years?'";
+  if(has("buy","invest","best sector","where"))return "Under Rs 80L: Zirakpur / Mohali Rd. Premium safety: Sec 8/9/17.";
+  if(has("sell","when"))return "Sell signal: 3-year gain above 35% or rental yield under 2%.";
+  if(has("predict","future","2028","2030"))return "Rule: price x (1 + growth)^years.";
+  if(has("loan","emi"))return "Banks fund 75-80% at 8.5-9.5%. Keep EMI under 40% of income.";
+  if(has("dealer","broker"))return "Top rated: UT Land Hub (Sec 17), Goyal Properties (Sec 34). Check RERA first.";
+  if(has("rera","legal","stamp","fraud"))return "Check RERA ID, 30-year title, no dues, registered deed only. Stamp ~7%.";
+  if(has("rent","yield"))return "Rental yield here is 2.5-3.5%.";
+  if(has("hi","hello","namaste"))return "Namaste! Ask about sectors, prices, EMI or legal.";
+  return "I cover buy/sell timing, sectors, prediction, EMI/ROI, dealers and legal.";
 }
 function send(){
   const i=$("qin"); if(!i) return; const t=i.value.trim();if(!t)return;
-  $("chat").innerHTML+=`<div class="um"><span>${t}</span></div>`;
+  $("chat").innerHTML+=`<div class="um"><span>${t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</span></div>`;
   $("chat").innerHTML+=`<div class="bm"><span>${ask(t)}</span></div>`;
   i.value="";$("chat").scrollTop=9999;
 }
