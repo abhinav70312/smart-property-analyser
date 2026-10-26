@@ -1,12 +1,12 @@
 :root{--bg:#0b0e1a;--panel:rgba(20,26,48,.85);--card:#141a30;--line:rgba(130,150,255,.16);--txt:#eef1ff;--mut:#9aa7c7;--acc:#7c8cff;--ac2:#22d3ee;--grn:#34d399}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Inter,system-ui,sans-serif;color:var(--txt);line-height:1.5;min-height:100vh;background:linear-gradient(120deg,#0b0e1a,#141a36,#0b1e26,#0b0e1a);background-size:300% 300%;animation:bgShift 18s ease infinite}
+body{font-family:Inter,system-ui,sans-serif;color:var(--txt);line-height:1.5;min-height:100vh;background:linear-gradient(120deg,#0a0618,#1b0f38,#062a3a,#0a0618);background-size:300% 300%;animation:bgShift 18s ease infinite}
 @keyframes bgShift{0%,100%{background-position:0% 40%}50%{background-position:100% 60%}}
 /* floating 3D blobs */
-body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(90px);opacity:.35;z-index:0;pointer-events:none;animation:drift 14s ease-in-out infinite}
-body::before{width:480px;height:480px;left:-140px;top:-120px;background:radial-gradient(circle at 35% 35%,#4f46e5,#0ea5e9)}
-body::after{width:520px;height:520px;right:-160px;bottom:-160px;background:radial-gradient(circle at 60% 60%,#0ea5e9,#10b981);animation-delay:-7s}
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(90px);opacity:.55;z-index:0;pointer-events:none;animation:drift 14s ease-in-out infinite}
+body::before{width:480px;height:480px;left:-140px;top:-120px;background:radial-gradient(circle at 35% 35%,#c026d3,#7c3aed 55%,#22d3ee)}
+body::after{width:520px;height:520px;right:-160px;bottom:-160px;background:radial-gradient(circle at 60% 60%,#22d3ee,#7c3aed 60%,#e879f9);animation-delay:-7s}
 @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.12)}}
 nav,.wrap{position:relative;z-index:1}
 /* logo + nav */
