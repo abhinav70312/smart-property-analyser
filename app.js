@@ -49,11 +49,13 @@ function drawProj(s,area,yrs){
 }
 function emi(){
   const P=+$("eP").value||5000000,R=(+$("eR").value||9)/1200,N=(+$("eY").value||20)*12;
+  if(!(R>0)||!(N>0)){$("eOut").textContent="Enter a rate above 0% and tenure above 0.";return;}
   const e=P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);
   $("eOut").innerHTML=`Monthly EMI: <b>${fmt(e)}</b> &nbsp; Total payable: <b>${fmt(e*N)}</b>`;
 }
 function roi(){
-  const buy=+$("rBuy").value||10000000,sell=+$("rSell").value||14000000,yrs=+$("rY").value||5,rent=+$("rRent").value||20000;
+  const buy=+$("rBuy").value||0,sell=+$("rSell").value||0,yrs=+$("rY").value||0,rent=+$("rRent").value||0;
+  if(!(buy>0)||!(yrs>0)){$("rOut").textContent="Enter a buy price and holding years above 0.";return;}
   const gain=sell-buy+rent*12*yrs, pct=(gain/buy*100).toFixed(1), ann=(Math.pow(sell/buy,1/yrs)-1)*100;
   $("rOut").innerHTML=`Net gain: <b>${fmt(gain)}</b> (${pct}%) &nbsp; <span class="pill">≈ ${ann.toFixed(1)}%/yr</span>`;
 }
@@ -80,13 +82,12 @@ function renderListings(){
   const df=$("dFilter"), only=df?df.value:"All dealers";
   el.innerHTML=l.filter(x=>((x.title+x.sector+x.type+x.by).toLowerCase().includes(q))&&(only==="All dealers"||x.by===only)).map(x=>
   `<div class="card"><div style="display:flex;justify-content:space-between"><span class="pill">${x.tag||x.type}</span><span class="mut">${x.sector}</span></div><h3 style="margin-top:6px">${x.title}</h3><p class="mut">${x.area||""} sq.ft • ${x.type}</p><p><b>${fmt(x.price)}</b> <span class="mut">(${fmt(x.price/(x.area||1))}/sq.ft)</span></p><p class="mut">Seller: ${x.by} • ${x.phone}</p><div style="display:flex;gap:6px"><a href="tel:${x.phone}"><button>Call seller</button></a><a href="${waLink(x.phone,"Hi, I'm interested in your listing: "+x.title+" ("+fmt(x.price)+")")}" target="_blank"><button class="ghost">WhatsApp</button></a></div></div>`).join("")||"<p class='mut'>No matches. Try another search or dealer.</p>";
-  if(df&&!df.options.length){df.innerHTML=`<option>All dealers</option>`+[...new Set(l.map(x=>x.by))].map(b=>`<option>${b}</option>`).join("");}
+  if(df){const cur=df.value||"All dealers";const opts=["All dealers",...new Set(l.map(x=>x.by))];df.innerHTML=opts.map(b=>`<option>${b}</option>`).join("");if(opts.includes(cur))df.value=cur;}
 }
 function addListing(){
   const l=load("listings",LISTINGS_SEED);
   l.unshift({id:"p"+Date.now(),title:$("lT").value||"Plot",sector:$("lS").value,price:+$("lP").value||0,area:+($("lA")&&$("lA").value)||0,type:$("lTy").value,by:$("lBy").value||"Owner",phone:$("lPh").value||"-",tag:"New"});
   store("listings",l);renderListings();renderDealers();
-  const df=$("dFilter");if(df)df.innerHTML="";
   alert("Published! Visible in Marketplace + under your dealer card.");
 }
 function renderDemands(){
