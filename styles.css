@@ -1,10 +1,10 @@
 :root{--bg:#eef3ff;--panel:rgba(255,255,255,.82);--card:#ffffff;--line:rgba(60,80,180,.14);--txt:#16213c;--mut:#5b6b8c;--acc:#4f46e5;--ac2:#7c6cff;--grn:#059669}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Inter,system-ui,sans-serif;color:var(--txt);line-height:1.5;min-height:100vh;background:linear-gradient(120deg,#dbeafe,#ede9fe,#d1fae5,#fef3c7);background-size:300% 300%;animation:bgShift 18s ease infinite}
+body{font-family:Inter,system-ui,sans-serif;color:var(--txt);line-height:1.5;min-height:100vh;background:linear-gradient(120deg,#dbeafe,#ede9fe,#d1fae5,#e0f2fe);background-size:300% 300%;animation:bgShift 18s ease infinite}
 @keyframes bgShift{0%,100%{background-position:0% 40%}50%{background-position:100% 60%}}
-/* floating 3D blobs */
-body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(70px);opacity:.5;z-index:0;pointer-events:none;animation:drift 14s ease-in-out infinite}
+/* floating 3D blobs — soft UI-matched ambient */
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(80px);opacity:.38;z-index:0;pointer-events:none;animation:drift 16s ease-in-out infinite}
 body::before{width:480px;height:480px;left:-140px;top:-120px;background:radial-gradient(circle at 35% 35%,#93c5fd,#6366f1)}
 body::after{width:520px;height:520px;right:-160px;bottom:-160px;background:radial-gradient(circle at 60% 60%,#6ee7b7,#0ea5e9);animation-delay:-7s}
 @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.12)}}
